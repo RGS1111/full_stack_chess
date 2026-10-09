@@ -1,0 +1,87 @@
+a:hover { text-decoration: underline; }
+h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+h2 { font-size: 2rem; }
+header.hero, main, footer.site-footer, section { padding: 16px; }
+
+body {
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  color: #0f172a;
+  background: linear-gradient(100deg, #000000 0%, #888787 35%, #f4f1f1b1 58%, #767575 80%, #0B0B0C 100%);
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  margin: 0;
+}
+html, body{
+  overscroll-behavior: None;
+}
+h1, h2, h3 { 
+  line-height: 1.2;
+  margin: 0 0 .75em;
+}
+p { 
+  font-size: 1.125rem;
+  line-height: 1.7;
+  margin: 0 0 1.5em;
+}
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.hero {
+  top: 0;
+  padding-block: 20px;
+  position: sticky;
+  z-index: 999;
+}
+
+.inside-hero{
+  background: #00000099; /* adding 99 to the end adds a blur effect */
+  border-radius: 100vw;
+  color: white;
+  font-family: serif;
+  font-size:medium;
+  padding-inline: 15px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-img{
+  height: 40px;
+  width: auto;
+}
+.hero-h1{
+  font-size:xx-large;
+}
+.panel{
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  padding-block: 40px;
+  padding-inline: 20px;
+}
+.panel article{
+  border-radius: 20px;
+  background: #14141469;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .06);
+  border: 1px solid #141414;
+  padding: 15px;
+}
+.panel-text{
+  font-family: serif;
+  color: white;
+  line-height: 0.8;
+}
+.gen_code_btn{
+  text-align: center;
+  font-size: medium;
+  color: black;
+  border-radius: 100vw;
+  background-color: white;
+}
+.gen_code_btn:hover{
+  background-color: black;
+  color: white;
+}
