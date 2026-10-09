@@ -66,6 +66,53 @@ async def websocket_endpoint(game_code, websocket : WebSocket):
     if game_code not in games:
         await websocket.close(code=4004)
         return
+    # based on what connection returns, thats black or white (1 or -1 or 0), 0 if room full
+    player = manager.connection(game_code, websocket)
+
+    if player == 0:
+        # if there are 2 players here already then reject new connection, as 0 returned when 1 and -1 filled
+        await websocket.close(code=4004)
+        return 
+
+    game_instance = games[game_code]
+
+    try:
+        while True:
+            data = await websocket.recieve_json()
+
+            if game_instance.current_player.colour != player:
+                await websocket.send_json({
+                    "type" : "MOVE INVALID",
+                    "reason" : "Not your move!"
+                })
+                continue
+            # if start and end from front end is list format for json, then turn list to tuple
+            player_start = tuple(data.get("start")) if isinstance(data.get("start"), list) else data.get("start")
+            player_end = tuple(data.get("end")) if isinstance(data.get("end"), list) else data.get("end")
+            player_promotion = data.get("promotion")
+            recieved_move = game_instance.make_move(player_start, player_end, player_promotion)
+
+            if recieved_move.get("valid"):
+                await manager.send_online(game_code, {
+                    "type" : "MOVE_SUCCESS",
+                    "data" : recieved_move 
+                })
+            else:
+                await websocket.send_json({
+                    "type" : "MOVE_INVALID",
+                    "reason" : recieved_move.get("reason")
+                })
+
+            if recieved_move.playing == False:
+                # playing is the flag variable in chess_engine confirming game is stil playing 
+                break
+    except:
+        manager.disconection(game_code, websocket)
+
+    
+if __name__ == "__main__":
+    Game = chess_engine.game()
+
 
     
 
